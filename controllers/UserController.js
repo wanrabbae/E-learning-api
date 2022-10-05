@@ -1,11 +1,12 @@
-const bcrypt = require("bcrypt");
 const { User, Class } = require("../models/Models");
 const fs = require("fs");
-const jwt = require("jsonwebtoken");
 
-const getUser = async (req, res) => {
+const getProfile = async (req, res) => {
   try {
-    const data = await User.findAll({});
+    const data = await User.findOne({
+      where: { id: req.user.id },
+      attributes: { exclude: ["password"] },
+    });
     return res.status(200).json({
       status: 200,
       data: data,
@@ -18,16 +19,6 @@ const getUser = async (req, res) => {
   }
 };
 
-const getProfile = (req, res) => {
-  return res.status(200).json({
-    status: 200,
-    data: {
-      nama: "Alwan",
-    },
-  });
-};
-
 module.exports = {
-  getUser,
   getProfile,
 };
