@@ -2,11 +2,18 @@ const { Material } = require("../models/Models");
 
 const getMaterialWithClassId = async (req, res) => {
   try {
-    const data = await Material.findAll({
-      where: {
-        class_id: req.query.id,
-      },
-    });
+    let data;
+
+    if (req.query.id) {
+      data = await Material.findOne({
+        where: {
+          class_id: req.query.id,
+        },
+      });
+    } else {
+      data = await Material.findAll({});
+    }
+
     return res.status(200).json({
       status: 200,
       data: data,
