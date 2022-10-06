@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const { User } = require("../models/Models");
 const jwt = require("jsonwebtoken");
 
-const token = (data) => {
+const tokens = (data) => {
   return jwt.sign(data, process.env.JWT_SECRET, { expiresIn: "365d" });
 };
 
@@ -32,7 +32,7 @@ const register = async (req, res) => {
     res.status(201).json({
       status: 201,
       message: "success register user",
-      token: token({ id: createUser.id }),
+      token: tokens({ id: createUser.id }),
       data: createUser,
     });
   } catch (error) {
@@ -67,14 +67,18 @@ const login = async (req, res) => {
       });
     }
 
-    const token = token({ id: user.id });
+    const token = tokens({ id: user.id });
 
     return res.json({
       status: 200,
       message: "login berhasil",
       token: token,
+      data: {
+        role: user.role,
+      },
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       status: 500,
       message: "Internal server error",

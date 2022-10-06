@@ -19,13 +19,13 @@ router.post("/logout", isAuth, AuthCtrl.logout);
 router.get("/profile", isAuth, UserCtrl.getProfile);
 
 // CLASS
-router.get("/class", ClassCtrl.getClass);
+router.get("/class", isAuth, ClassCtrl.getClass);
 
 // MATERIAL
-router.get("/materials", MaterialCtrl.getMaterialWithClassId);
+router.get("/materials", isAuth, MaterialCtrl.getMaterialWithClassId);
 
 // ASSIGNMENT
-router.get("/assignments", AssignCtrl.getAssignmentWithClassId);
+router.get("/assignments", isAuth, AssignCtrl.getAssignmentWithClassId);
 
 // WORKS
 router.get("/works", WorkCtrl.getWorksWithAssignmentId);

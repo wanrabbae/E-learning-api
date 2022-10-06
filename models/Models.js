@@ -61,6 +61,7 @@ const Works = db.define(
   "works",
   {
     assignment_id: DataTypes.INTEGER,
+    user_id: DataTypes.INTEGER,
     file: DataTypes.STRING,
     status: DataTypes.STRING,
   },

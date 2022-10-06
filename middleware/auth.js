@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { User } = require("../models/Models");
 
 exports.isAuth = (req, res, next) => {
   const tokenBearer = req.header("Authorization");
@@ -19,14 +20,18 @@ exports.isAuth = (req, res, next) => {
     });
   }
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+  jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
     if (err) {
       return res.status(401).json({
         status: 401,
         message: "Unauthorized. silahkan login terlebih dahulu",
       });
     }
-    req.user = decoded;
+    const user = await User.findOne({
+      where: { id: decoded.id },
+      attributes: { exclude: ["password"] },
+    });
+    req.user = user;
     next();
   });
 };
