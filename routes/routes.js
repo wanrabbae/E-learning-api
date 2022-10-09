@@ -82,5 +82,6 @@ router.post(
   WorkCtrl.createWork
 );
 router.delete("/works", isAuth, isStudent, WorkCtrl.deleteWork);
+router.put("/work-status", isAuth, isTeacher, WorkCtrl.updateStatusWork);
 
 module.exports = router;

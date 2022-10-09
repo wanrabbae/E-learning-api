@@ -83,8 +83,30 @@ const deleteWork = async (req, res) => {
   }
 };
 
+const updateStatusWork = async (req, res) => {
+  try {
+    const edit = await Work.update(
+      {
+        status: req.body.status,
+      },
+      { where: { id: req.body.id } }
+    );
+
+    res.status(201).json({
+      status: 201,
+      message: "Berhasil mengumpulkan tugas!",
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 500,
+      message: "Internal server error",
+    });
+  }
+};
+
 module.exports = {
   getWorksWithAssignmentId,
   createWork,
   deleteWork,
+  updateStatusWork,
 };
