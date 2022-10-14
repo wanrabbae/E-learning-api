@@ -1,5 +1,7 @@
 const { Op } = require("sequelize");
 const { Assignment, Works } = require("../models/Models");
+const path = require("path");
+const fs = require("fs");
 
 const getAssignmentWithClassId = async (req, res) => {
   try {

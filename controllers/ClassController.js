@@ -1,4 +1,6 @@
 const { Class, User, Assignment, Material } = require("../models/Models");
+const path = require("path");
+const fs = require("fs");
 
 const getClass = async (req, res) => {
   try {
@@ -14,6 +16,13 @@ const getClass = async (req, res) => {
         include: { model: User, attributes: { exclude: ["password"] } },
       });
     }
+
+    data.map((dt) => {
+      dt.banner =
+        dt.banner != "" || dt.banner != null
+          ? `${req.protocol}://${req.get("host")}/assets/${dt.banner}`
+          : null;
+    });
 
     return res.status(200).json({
       status: 200,
@@ -65,6 +74,7 @@ const createCalss = async (req, res) => {
       data: create,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       status: 500,
       message: "Internal server error",
@@ -98,6 +108,7 @@ const deleteClass = async (req, res) => {
       message: "Berhasil menghapus kelas!",
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       status: 500,
       message: "Internal server error",
@@ -111,7 +122,7 @@ const updateCalss = async (req, res) => {
 
     const data = await Class.findOne({
       where: {
-        id: req.query.id,
+        id: req.body.id,
       },
     });
 
@@ -149,6 +160,7 @@ const updateCalss = async (req, res) => {
       message: "Berhasil mengedit kelas!",
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       status: 500,
       message: "Internal server error",

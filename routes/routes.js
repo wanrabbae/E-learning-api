@@ -17,6 +17,8 @@ router.post("/register", AuthCtrl.register);
 router.post("/login", AuthCtrl.login);
 router.post("/logout", isAuth, AuthCtrl.logout);
 router.get("/profile", isAuth, UserCtrl.getProfile);
+router.put("/profile/update", isAuth, UserCtrl.updateUser);
+router.get("/profile/delete", isAuth, UserCtrl.deleteUser);
 
 // CLASS
 router.get("/class", isAuth, ClassCtrl.getClass);

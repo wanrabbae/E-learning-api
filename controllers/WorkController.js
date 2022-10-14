@@ -1,4 +1,6 @@
 const { Works, Assignment } = require("../models/Models");
+const path = require("path");
+const fs = require("fs");
 
 const getWorksWithAssignmentId = async (req, res) => {
   try {
