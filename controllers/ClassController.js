@@ -9,7 +9,11 @@ const getClass = async (req, res) => {
     if (req.query.id) {
       data = await Class.findOne({
         where: { id: req.query.id },
-        include: [{ model: User }, { model: Material }, { model: Assignment }],
+        include: [
+          { model: User, attributes: { exclude: ["password"] } },
+          { model: Material },
+          { model: Assignment },
+        ],
       });
     } else {
       data = await Class.findAll({
@@ -17,12 +21,20 @@ const getClass = async (req, res) => {
       });
     }
 
-    data.map((dt) => {
-      dt.banner =
-        dt.banner != "" || dt.banner != null
-          ? `${req.protocol}://${req.get("host")}/assets/${dt.banner}`
+    if (data.length > 0) {
+      for (let i = 0; i < data.length; i++) {
+        console.log(data[i]);
+        data[i]["banner"] =
+          data[i]["banner"] != "" || data[i]["banner"] != null
+            ? `${req.protocol}://${req.get("host")}/assets/${data[i]["banner"]}`
+            : null;
+      }
+    } else {
+      data.banner =
+        data.banner != "" || data.banner != null
+          ? `${req.protocol}://${req.get("host")}/assets/${data.banner}`
           : null;
-    });
+    }
 
     return res.status(200).json({
       status: 200,

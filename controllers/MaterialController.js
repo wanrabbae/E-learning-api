@@ -15,12 +15,19 @@ const getMaterialWithClassId = async (req, res) => {
       data = await Material.findAll({});
     }
 
-    data.map((dt) => {
-      dt.file =
-        dt.file != "" || dt.file != null
-          ? `${req.protocol}://${req.get("host")}/assets/${dt.file}`
+    if (data.length > 0) {
+      for (let i = 0; i < data.length; i++) {
+        data[i]["file"] =
+          data[i]["file"] != "" || data[i]["file"] != null
+            ? `${req.protocol}://${req.get("host")}/assets/${data[i]["file"]}`
+            : null;
+      }
+    } else {
+      data.file =
+        data.file != "" || data.file != null
+          ? `${req.protocol}://${req.get("host")}/assets/${data.file}`
           : null;
-    });
+    }
 
     return res.status(200).json({
       status: 200,

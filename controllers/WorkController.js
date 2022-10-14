@@ -8,8 +8,22 @@ const getWorksWithAssignmentId = async (req, res) => {
       where: {
         assignment_id: req.query.id,
       },
-      include: { model: Assignment },
     });
+
+    if (data.length > 0) {
+      for (let i = 0; i < data.length; i++) {
+        data[i]["file"] =
+          data[i]["file"] != "" || data[i]["file"] != null
+            ? `${req.protocol}://${req.get("host")}/assets/${data[i]["file"]}`
+            : null;
+      }
+    } else {
+      data.file =
+        data.file != "" || data.file != null
+          ? `${req.protocol}://${req.get("host")}/assets/${data.file}`
+          : null;
+    }
+
     return res.status(200).json({
       status: 200,
       data: data,
