@@ -48,7 +48,7 @@ const createWork = async (req, res) => {
       if (err) return handleError(err, res);
     });
 
-    const create = await Work.create({
+    const create = await Works.create({
       assignment_id: req.body.assignmentId,
       user_id: req.user.id,
       file: file,
@@ -70,7 +70,7 @@ const createWork = async (req, res) => {
 
 const deleteWork = async (req, res) => {
   try {
-    const data = await Work.findOne({
+    const data = await Works.findOne({
       where: {
         id: req.query.id,
       },
@@ -81,7 +81,7 @@ const deleteWork = async (req, res) => {
       console.log("path/file.png/jpg/jpeg was deleted");
     });
 
-    await Work.destroy({
+    await Works.destroy({
       where: {
         id: req.query.id,
       },
@@ -101,7 +101,7 @@ const deleteWork = async (req, res) => {
 
 const updateStatusWork = async (req, res) => {
   try {
-    const edit = await Work.update(
+    const edit = await Works.update(
       {
         status: req.body.status,
       },
@@ -110,7 +110,7 @@ const updateStatusWork = async (req, res) => {
 
     res.status(201).json({
       status: 201,
-      message: "Berhasil mengumpulkan tugas!",
+      message: "Tugas telah ditolak atau dikembalikan!",
     });
   } catch (error) {
     res.status(500).json({
