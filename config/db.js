@@ -4,7 +4,7 @@ const Sequelize = require("sequelize");
 
 // create connection
 const db = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PW, {
-  host: "localhost",
+  host: process.env.DB_HOST,
   dialect: "mysql",
 });
 
