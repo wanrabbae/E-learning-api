@@ -1,4 +1,5 @@
 const { User, Class } = require("../models/Models");
+const bcrypt = require("bcrypt");
 const path = require("path");
 const fs = require("fs");
 
@@ -8,6 +9,13 @@ const getProfile = async (req, res) => {
       where: { id: req.user.id },
       attributes: { exclude: ["password"] },
     });
+
+    if (data.photo == null || data.photo == "") {
+      data.photo = null;
+    } else {
+      data.photo = `${req.protocol}://${req.get("host")}/assets/${data.photo}`;
+    }
+
     return res.status(200).json({
       status: 200,
       data: data,
@@ -23,19 +31,37 @@ const getProfile = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     let image = "";
+    let hashPassword;
+
+    if (req.body.password) {
+      if (req.body.password !== req.body.password_confirmed) {
+        return res.status(400).json({
+          status: 400,
+          message: "Password confirmation doesn't match!",
+        });
+      }
+
+      const salt = await bcrypt.genSalt(20);
+      hashPassword = await bcrypt.hash(req.body.password, salt).then((hash) => {
+        return hash;
+      });
+    }
 
     const data = await User.findOne({
       where: {
-        id: req.body.id,
+        id: req.user.id,
       },
     });
 
     if (req.file) {
-      if (data.image != null || data.image != "") {
-        fs.unlink(`assets/${data.image}`, (err) => {
-          if (err) throw err;
-          console.log("path/file.png/jpg/jpeg was deleted");
-        });
+      if (data.photo != null || data.photo != "") {
+        if (data.photo == null || data.photo == "") {
+        } else {
+          fs.unlink(`assets/${data.photo}`, (err) => {
+            if (err) throw err;
+            console.log("path/file.png/jpg/jpeg was deleted");
+          });
+        }
       }
 
       const tempPath = req.file.path;
@@ -50,16 +76,18 @@ const updateUser = async (req, res) => {
           photo: image,
           nama: req.body.nama,
           email: req.body.email,
+          password: req.body.password ? hashPassword : data.password,
         },
-        { where: { id: req.body.id } }
+        { where: { id: req.user.id } }
       );
     } else {
       await User.update(
         {
           nama: req.body.nama,
           email: req.body.email,
+          password: req.body.password ? hashPassword : data.password,
         },
-        { where: { id: req.body.id } }
+        { where: { id: req.user.id } }
       );
     }
 

@@ -4,6 +4,7 @@ const db = require("../config/db");
 const User = db.define(
   "users",
   {
+    photo: DataTypes.STRING,
     nama: DataTypes.STRING,
     email: DataTypes.STRING,
     role: DataTypes.CHAR(10),
