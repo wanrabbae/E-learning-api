@@ -1,4 +1,4 @@
-const { User, Class } = require("../models/Models");
+const { User, Class, Works } = require("../models/Models");
 const bcrypt = require("bcrypt");
 const path = require("path");
 const fs = require("fs");
@@ -106,9 +106,23 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
+    if(req.user.role == "guru") {
+        await Class.destroy({
+            where: {
+                teacher_id: req.user.id
+            }
+        });
+    }
+    
+    await Works.destroy({
+        where: {
+            user_id: req.user.id
+        }
+    });
+      
     await User.destroy({
       where: {
-        id: req.query.id,
+        id: req.user.id,
       },
     });
 

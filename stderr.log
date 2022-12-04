@@ -1,0 +1,68 @@
+Exception ignored in: <_io.TextIOWrapper name='<stdout>' mode='w' encoding='utf-8'>
+BrokenPipeError: [Errno 32] Broken pipe
+Exception ignored in: <_io.TextIOWrapper name='<stdout>' mode='w' encoding='utf-8'>
+BrokenPipeError: [Errno 32] Broken pipe
+Exception ignored in: <_io.TextIOWrapper name='<stdout>' mode='w' encoding='utf-8'>
+BrokenPipeError: [Errno 32] Broken pipe
+Exception ignored in: <_io.TextIOWrapper name='<stdout>' mode='w' encoding='utf-8'>
+BrokenPipeError: [Errno 32] Broken pipe
+/home/afkaarunaschool/elearning/controllers/AssignController.js:114
+            if (err) throw err;
+                     ^
+
+[Error: ENOENT: no such file or directory, unlink 'assets/test.jpg'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'unlink',
+  path: 'assets/test.jpg'
+}
+/home/afkaarunaschool/elearning/controllers/AssignController.js:114
+            if (err) throw err;
+                     ^
+
+[Error: ENOENT: no such file or directory, unlink 'assets/test.jpg'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'unlink',
+  path: 'assets/test.jpg'
+}
+/home/afkaarunaschool/elearning/controllers/AssignController.js:114
+            if (err) throw err;
+                     ^
+
+[Error: ENOENT: no such file or directory, unlink 'assets/test.jpg'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'unlink',
+  path: 'assets/test.jpg'
+}
+/home/afkaarunaschool/elearning/controllers/AssignController.js:114
+            if (err) throw err;
+                     ^
+
+[Error: ENOENT: no such file or directory, unlink 'assets/test.jpg'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'unlink',
+  path: 'assets/test.jpg'
+}
+/home/afkaarunaschool/elearning/controllers/AssignController.js:114
+            if (err) throw err;
+                     ^
+
+[Error: ENOENT: no such file or directory, unlink 'assets/test.jpg'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'unlink',
+  path: 'assets/test.jpg'
+}
+/home/afkaarunaschool/elearning/controllers/AssignController.js:114
+            if (err) throw err;
+                     ^
+
+[Error: ENOENT: no such file or directory, unlink 'assets/test.jpg'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'unlink',
+  path: 'assets/test.jpg'
+}

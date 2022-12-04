@@ -8,6 +8,7 @@ const getWorksWithAssignmentId = async (req, res) => {
       where: {
         assignment_id: req.query.id,
       },
+      order: [["id", "DESC"]],
     });
 
     if (data.length > 0) {
@@ -76,10 +77,14 @@ const deleteWork = async (req, res) => {
       },
     });
 
-    fs.unlink(`assets/${data.file}`, (err) => {
-      if (err) throw err;
-      console.log("path/file.png/jpg/jpeg was deleted");
-    });
+    if(data.file == null) {
+          
+    }else {
+          fs.unlink(`assets/${data.file}`, (err) => {
+            if (err) throw err;
+            console.log("path/file.png/jpg/jpeg was deleted");
+         });
+     }
 
     await Works.destroy({
       where: {

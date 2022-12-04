@@ -8,11 +8,12 @@ const getClass = async (req, res) => {
 
     if (req.query.id) {
       data = await Class.findOne({
+        order: [[{model: Material, as: "materials"}, "id", "DESC"], [{model: Assignment, as: "assignments"}, "id", "DESC"]],
         where: { id: req.query.id },
         include: [
           { model: User, attributes: { exclude: ["password"] } },
-          { model: Material },
-          { model: Assignment },
+          { model: Material, as: "materials", },
+          { model: Assignment, as: "assignments", },
         ],
       });
     } else {

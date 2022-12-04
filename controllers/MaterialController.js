@@ -8,11 +8,13 @@ const getMaterialWithClassId = async (req, res) => {
     if (req.query.id) {
       data = await Material.findOne({
         where: {
-          class_id: req.query.id,
+          id: req.query.id,
         },
       });
     } else {
-      data = await Material.findAll({});
+      data = await Material.findAll({
+          order: [["id", "DESC"]],
+      });
     }
 
     if (data.length > 0) {
@@ -83,10 +85,14 @@ const deleteMaterial = async (req, res) => {
     });
 
     if (data.file != null || data.file != "") {
-      fs.unlink(`assets/${data.file}`, (err) => {
-        if (err) throw err;
-        console.log("path/file.png/jpg/jpeg was deleted");
-      });
+      if(data.file == null) {
+          
+      }else {
+          fs.unlink(`assets/${data.file}`, (err) => {
+            if (err) throw err;
+            console.log("path/file.png/jpg/jpeg was deleted");
+          });
+      }
     }
 
     await Material.destroy({
@@ -118,10 +124,14 @@ const updateMaterial = async (req, res) => {
     });
 
     if (req.file) {
-      fs.unlink(`assets/${data.file}`, (err) => {
-        if (err) throw err;
-        console.log("path/file.png/jpg/jpeg was deleted");
-      });
+      if(data.file == null) {
+          
+      }else {
+          fs.unlink(`assets/${data.file}`, (err) => {
+            if (err) throw err;
+            console.log("path/file.png/jpg/jpeg was deleted");
+          });
+      }
 
       const tempPath = req.file.path;
       file = req.file.filename + "." + req.file.mimetype.split("/")[1];

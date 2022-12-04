@@ -23,7 +23,7 @@ router.put(
   Upload.single("photo"),
   UserCtrl.updateUser
 );
-router.get("/profile/delete", isAuth, UserCtrl.deleteUser);
+router.delete("/profile/delete", isAuth, UserCtrl.deleteUser);
 
 // CLASS
 router.get("/class", isAuth, ClassCtrl.getClass);

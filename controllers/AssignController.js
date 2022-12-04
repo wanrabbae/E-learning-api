@@ -11,7 +11,7 @@ const getAssignmentWithClassId = async (req, res) => {
       if (req.user.role == "siswa") {
         data = await Assignment.findOne({
           where: {
-            class_id: req.query.id,
+            id: req.query.id,
           },
           raw: true,
           nest: true,
@@ -27,12 +27,14 @@ const getAssignmentWithClassId = async (req, res) => {
       } else {
         data = await Assignment.findOne({
           where: {
-            class_id: req.query.id,
+            id: req.query.id,
           },
         });
       }
     } else {
-      data = await Assignment.findAll({});
+      data = await Assignment.findAll({
+          order: [["id", "DESC"]],
+      });
     }
 
     if (data.length > 0) {
@@ -57,7 +59,7 @@ const getAssignmentWithClassId = async (req, res) => {
     console.log(error);
     res.status(500).json({
       status: 500,
-      message: "Internal server error",
+      message: "Internal server error: " + error.toString(),
     });
   }
 };
@@ -105,11 +107,21 @@ const deleteAssignment = async (req, res) => {
     });
 
     if (data.file != null || data.file != "") {
-      fs.unlink(`assets/${data.file}`, (err) => {
-        if (err) throw err;
-        console.log("path/file.png/jpg/jpeg was deleted");
-      });
+      if(data.file == null) {
+          
+      }else {
+          fs.unlink(`assets/${data.file}`, (err) => {
+            if (err) throw err;
+            console.log("path/file.png/jpg/jpeg was deleted");
+          });
+      }
     }
+    
+    await Works.destroy({
+        where: {
+            assignment_id: req.query.id,
+        }
+    });
 
     await Assignment.destroy({
       where: {
@@ -124,7 +136,7 @@ const deleteAssignment = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       status: 500,
-      message: "Internal server error",
+      message: "Internal server error: " + error.toString(),
     });
   }
 };
@@ -140,10 +152,14 @@ const updateAssignment = async (req, res) => {
     });
 
     if (req.file) {
-      fs.unlink(`assets/${data.file}`, (err) => {
-        if (err) throw err;
-        console.log("path/file.png/jpg/jpeg was deleted");
-      });
+      if(data.file == null) {
+          
+      }else {
+          fs.unlink(`assets/${data.file}`, (err) => {
+            if (err) throw err;
+            console.log("path/file.png/jpg/jpeg was deleted");
+          });
+      }
 
       const tempPath = req.file.path;
       file = req.file.filename + "." + req.file.mimetype.split("/")[1];
